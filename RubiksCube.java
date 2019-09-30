@@ -6,6 +6,7 @@
 
 package rubik;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -22,6 +23,7 @@ public class RubiksCube {
     private Face back;
     private State state;
     private LinkedList<State> stateSequence;
+    private HashMap<Colour, Colour> oppositeColour;
 
     public RubiksCube()
     {
@@ -43,6 +45,14 @@ public class RubiksCube {
         stateSequence.add(State.PERMUTECORNER);
         stateSequence.add(State.THIRDLAYER);
         stateSequence.add(State.SOLVED);
+        
+        this.oppositeColour = new HashMap<>();
+        oppositeColour.put(Colour.BLUE, Colour.GREEN);
+        oppositeColour.put(Colour.GREEN, Colour.BLUE);
+        oppositeColour.put(Colour.RED, Colour.ORANGE);
+        oppositeColour.put(Colour.ORANGE, Colour.RED);
+        oppositeColour.put(Colour.WHITE, Colour.YELLOW);
+        oppositeColour.put(Colour.YELLOW, Colour.WHITE);
     }
 
     public RubiksCube(int x)
@@ -95,43 +105,48 @@ public class RubiksCube {
     {
         return this.stateSequence;
     }
+    
+    public HashMap<Colour, Colour> getOppositeColours()
+    {
+        return this.oppositeColour;
+    }
 
     public void front()
     {
         this.front.clockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getRow()];
+        Colour[] c1 = new Colour[this.up.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
-            c1[i] = this.up.getGrid()[this.up.getRow()-1][i];
+            c1[i] = this.up.getGrid()[this.up.getNumRow()-1][i];
         }
 
         Colour[] c2 = this.right.swapCol(c1, 0);
         Colour[] c3 = this.down.swapRowReverse(c2, 0);
-        c1 = this.left.swapCol(c3, this.left.getCol()-1);
-        this.up.swapRow(c1, this.up.getRow()-1);
+        c1 = this.left.swapCol(c3, this.left.getNumCol()-1);
+        this.up.swapRow(c1, this.up.getNumRow()-1);
     }
 
     public void frontInverse()
     {
         this.front.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getRow()];
+        Colour[] c1 = new Colour[this.up.getNumRow()];
 
         for(int i = c1.length-1; i>=0; i--)
         {
-            c1[i] = this.up.getGrid()[this.up.getRow()-1][i];
+            c1[i] = this.up.getGrid()[this.up.getNumRow()-1][i];
         }
 
-        Colour[] c2 = this.left.swapCol(c1, this.left.getCol()-1);
+        Colour[] c2 = this.left.swapCol(c1, this.left.getNumCol()-1);
         Colour[] c3 = this.down.swapRow(c2, 0);
         c1 = this.right.swapColReverse(c3, 0);
-        this.up.swapRow(c1, this.up.getRow()-1);
+        this.up.swapRow(c1, this.up.getNumRow()-1);
     }
 
     public void up()
     {
         this.up.clockwiseTurn();
-        Colour[] c1 = new Colour[this.front.getRow()];
+        Colour[] c1 = new Colour[this.front.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
@@ -147,7 +162,7 @@ public class RubiksCube {
     public void upInverse()
     {
         this.up.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.front.getRow()];
+        Colour[] c1 = new Colour[this.front.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
@@ -163,39 +178,39 @@ public class RubiksCube {
     public void down()
     {
         this.down.clockwiseTurn();
-        Colour[] c1 = new Colour[this.front.getRow()];
+        Colour[] c1 = new Colour[this.front.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
-            c1[i] = this.front.getGrid()[this.front.getRow()-1][i];
+            c1[i] = this.front.getGrid()[this.front.getNumRow()-1][i];
         }
 
-        Colour[] c2 = this.right.swapRow(c1, this.left.getRow()-1);
-        Colour[] c3 = this.back.swapRow(c2, this.back.getRow()-1);
-        c1 = this.left.swapRow(c3, this.right.getRow()-1);
-        this.front.swapRow(c1, this.front.getRow()-1);
+        Colour[] c2 = this.right.swapRow(c1, this.left.getNumRow()-1);
+        Colour[] c3 = this.back.swapRow(c2, this.back.getNumRow()-1);
+        c1 = this.left.swapRow(c3, this.right.getNumRow()-1);
+        this.front.swapRow(c1, this.front.getNumRow()-1);
     }
 
     public void downInverse()
     {
         this.down.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.front.getRow()];
+        Colour[] c1 = new Colour[this.front.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
-            c1[i] = this.front.getGrid()[this.front.getRow()-1][i];
+            c1[i] = this.front.getGrid()[this.front.getNumRow()-1][i];
         }
 
-        Colour[] c2 = this.left.swapRow(c1, this.left.getRow()-1);
-        Colour[] c3 = this.back.swapRow(c2, this.back.getRow()-1);
-        c1 = this.right.swapRow(c3, this.right.getRow()-1);
-        this.front.swapRow(c1, this.front.getRow()-1);
+        Colour[] c2 = this.left.swapRow(c1, this.left.getNumRow()-1);
+        Colour[] c3 = this.back.swapRow(c2, this.back.getNumRow()-1);
+        c1 = this.right.swapRow(c3, this.right.getNumRow()-1);
+        this.front.swapRow(c1, this.front.getNumRow()-1);
     }
 
     public void left()
     {
         this.left.clockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getCol()];
+        Colour[] c1 = new Colour[this.up.getNumCol()];
         for(int i = 0; i<c1.length; i++)
         {
             c1[i] = this.up.getGrid()[i][0];
@@ -203,14 +218,14 @@ public class RubiksCube {
 
         Colour[] c2 = this.front.swapCol(c1, 0);
         Colour[] c3 = this.down.swapCol(c2, 0);
-        c1 = this.back.swapColReverse(c3, this.back.getCol()-1);
+        c1 = this.back.swapColReverse(c3, this.back.getNumCol()-1);
         this.up.swapCol(c1, 0);
     }
 
     public void leftInverse()
     {
         this.left.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getCol()];
+        Colour[] c1 = new Colour[this.up.getNumCol()];
         for(int i = c1.length-1; i>=0; i--)
         {
             c1[i] = this.up.getGrid()[i][0];
@@ -218,44 +233,44 @@ public class RubiksCube {
 
         Colour[] c2 = this.back.swapCol(c1, 0);
         Colour[] c3 = this.down.swapCol(c2, 0);
-        c1 = this.front.swapCol(c3, this.back.getCol()-1);
+        c1 = this.front.swapCol(c3, this.back.getNumCol()-1);
         this.up.swapCol(c1, 0);
     }
 
     public void right()
     {
         this.right.clockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getCol()];
+        Colour[] c1 = new Colour[this.up.getNumCol()];
         for(int i = c1.length-1; i>=0; i--)
         {
-            c1[i] = this.up.getGrid()[i][this.up.getCol()-1];
+            c1[i] = this.up.getGrid()[i][this.up.getNumCol()-1];
         }
 
         Colour[] c2 = this.back.swapCol(c1, 0);
-        Colour[] c3 = this.down.swapColReverse(c2, this.down.getCol()-1);
-        c1 = this.front.swapCol(c3, this.front.getCol()-1);
-        this.up.swapCol(c1, this.up.getCol()-1);
+        Colour[] c3 = this.down.swapColReverse(c2, this.down.getNumCol()-1);
+        c1 = this.front.swapCol(c3, this.front.getNumCol()-1);
+        this.up.swapCol(c1, this.up.getNumCol()-1);
     }
 
     public void rightInverse()
     {
         this.right.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getCol()];
+        Colour[] c1 = new Colour[this.up.getNumCol()];
         for(int i = 0; i<c1.length; i++)
         {
-            c1[i] = this.up.getGrid()[i][this.up.getCol()-1];
+            c1[i] = this.up.getGrid()[i][this.up.getNumCol()-1];
         }
 
-        Colour[] c2 = this.front.swapCol(c1, this.front.getCol()-1);
-        Colour[] c3 = this.down.swapCol(c2, this.down.getCol()-1);
+        Colour[] c2 = this.front.swapCol(c1, this.front.getNumCol()-1);
+        Colour[] c3 = this.down.swapCol(c2, this.down.getNumCol()-1);
         c1 = this.back.swapCol(c3, 0);
-        this.up.swapCol(c1, this.up.getCol()-1);
+        this.up.swapCol(c1, this.up.getNumCol()-1);
     }
 
     public void back()
     {
         this.back.clockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getRow()];
+        Colour[] c1 = new Colour[this.up.getNumRow()];
 
         for(int i = 0; i<c1.length; i++)
         {
@@ -263,25 +278,25 @@ public class RubiksCube {
         }
 
         Colour[] c2 = this.left.swapCol(c1, 0);
-        Colour[] c3 = this.down.swapRowReverse(c2, this.down.getRow()-1);
-        c1 = this.right.swapCol(c3, this.left.getCol()-1);
+        Colour[] c3 = this.down.swapRowReverse(c2, this.down.getNumRow()-1);
+        c1 = this.right.swapCol(c3, this.left.getNumCol()-1);
         this.up.swapRow(c1, 0);
     }
 
     public void backInverse()
     {
         this.back.antiClockwiseTurn();
-        Colour[] c1 = new Colour[this.up.getRow()];
+        Colour[] c1 = new Colour[this.up.getNumRow()];
 
         for(int i = c1.length-1; i>=0; i--)
         {
             c1[i] = this.up.getGrid()[0][i];
         }
 
-        Colour[] c2 = this.right.swapCol(c1, this.left.getCol()-1);
-        Colour[] c3 = this.down.swapRow(c2, this.down.getRow()-1);
+        Colour[] c2 = this.right.swapCol(c1, this.left.getNumCol()-1);
+        Colour[] c3 = this.down.swapRow(c2, this.down.getNumRow()-1);
         c1 = this.left.swapColReverse(c3, 0);
-        this.up.swapRow(c1, this.up.getRow()-1);
+        this.up.swapRow(c1, this.up.getNumRow()-1);
     }
 
     public void XTurn()
@@ -478,8 +493,61 @@ public class RubiksCube {
         }
         this.state = State.SHUFFLED;
     }
-
-
+    
+    public boolean scanCornerPermuted(Face up, Face front, Face right) {
+        return (up.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1] ||
+                up.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
+                up.getColour() == right.getGrid()[0][0]) &&
+               (front.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1] ||
+                front.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
+                front.getColour() == right.getGrid()[0][0]) &&
+               (right.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1] ||
+                right.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
+                right.getColour() == right.getGrid()[0][0]);
+    }
+    
+    public boolean scanHorizontalLinePermuted() {
+        return this.up.scanLeftEdgeOriented() && this.up.scanRightEdgeOriented() &&
+               this.left.getColour() == this.oppositeColour.get(this.right.getColour()) &&
+               this.right.getColour() == this.oppositeColour.get(this.left.getColour());
+    }
+    
+    public boolean scanVerticalLinePermuted() {
+        return this.up.scanTopEdgeOriented() && this.up.scanBottomEdgeOriented() &&
+               this.front.getColour() == this.oppositeColour.get(this.back.getColour()) &&
+               this.back.getColour() == this.oppositeColour.get(this.front.getColour());
+    }
+    
+    public boolean scanCrossPermuted() {
+        return this.scanHorizontalLinePermuted() && this.scanVerticalLinePermuted();
+    }
+    
+    public boolean scanCornerOriented(Face up, Face front, Face right) {
+        return (up.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1]) &&
+               (front.getColour() == front.getGrid()[0][front.getNumCol()-1]) &&
+               (right.getColour() == right.getGrid()[0][0]);
+    }
+    
+    public boolean scanEdgeOriented(Face up, Face front) {
+        return up.scanRowEdge(up.getColour(), up.getNumRow()-1) &&
+               front.scanRowEdge(front.getColour(), 0);
+    }
+    
+    public boolean scanCrossOriented() {
+        return this.up.scanCross() &&
+               this.scanEdgeOriented(this.up, this.front) &&
+               this.scanEdgeOriented(this.up, this.back) &&
+               this.scanEdgeOriented(this.up, this.left) &&
+               this.scanEdgeOriented(this.up, this.right);
+    }
+    
+    public boolean scanAllCornersOriented() {
+        return this.scanCornerOriented(this.up, this.front, this.right) &&
+               this.scanCornerOriented(this.up, this.left, this.front) &&
+               this.scanCornerOriented(this.up, this.back, this.left) &&
+               this.scanCornerOriented(this.up, this.right, this.back);
+    }
+   
     public String toString()
     {
         return "FRONT: " + this.front.toString() + 

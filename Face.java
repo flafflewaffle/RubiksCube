@@ -14,16 +14,16 @@ import java.util.Arrays;
  */
 public class Face {
     
-    private int x;
-    private int y;
+    private int numRow;
+    private int numCol;
     private Colour colour;
     private Colour[][] grid;
 
     
     public Face(Colour c, int row, int col)
     {
-        this.x = row;
-        this.y = col;
+        this.numRow = row;
+        this.numCol = col;
         this.colour = c;
         this.grid = new Colour[row][col];
 
@@ -36,14 +36,14 @@ public class Face {
         }
     }
     
-    public int getRow()
+    public int getNumRow()
     {
-        return this.x;
+        return this.numRow;
     }
     
-    public int getCol()
+    public int getNumCol()
     {
-        return this.y;
+        return this.numCol;
     }
     
     public Colour[][] getGrid()
@@ -267,6 +267,86 @@ public class Face {
         }
             
         return toReturn;
+    }
+    
+    public boolean scanCenter() {
+        if (this.numCol < 3 && this.numRow < 3){
+            return true;
+        }
+        
+        for(int r = 1; r < this.numRow-1; r++) 
+        {
+            for(int c = 1; c < this.numCol-1; r++) 
+            { 
+                if(this.colour != this.grid[r][c]) 
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public boolean scanRowEdge(Colour check, int row) {
+        if (this.numCol < 3 && this.numRow < 3){
+            return true;
+        }
+        
+        for(int c = 1; c < this.numCol-1; c++)
+        {
+            if(check != this.grid[row][c]) 
+            { 
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean scanColEdge(Colour check, int col) {
+        if (this.numCol < 3 && this.numRow < 3){
+            return true;
+        }
+        
+        for(int r = 1; r < this.numRow-1; r++)
+        {
+            if(check != this.grid[r][col]) 
+            { 
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean scanLeftEdgeOriented() {
+        return this.scanColEdge(this.colour, 0);
+    }
+    
+    public boolean scanRightEdgeOriented() {
+        return this.scanColEdge(this.colour, this.numCol-1);
+    }
+    
+    public boolean scanTopEdgeOriented() {
+        return this.scanRowEdge(this.colour, 0);
+    }
+    
+    public boolean scanBottomEdgeOriented() {
+        return this.scanRowEdge(this.colour, this.numRow-1);
+    }
+    
+    public boolean scanL() {
+        return this.scanCenter() && this.scanRowEdge(this.colour, 0) && this.scanColEdge(this.colour, 0);
+    }
+    
+    public boolean scanHorizontalLine() {
+        return this.scanCenter() && this.scanColEdge(this.colour, 0) && this.scanColEdge(this.colour, this.numCol-1);
+    }
+    
+    public boolean scanVerticalLine() {
+        return this.scanCenter() && this.scanRowEdge(this.colour, 0) && this.scanRowEdge(this.colour, this.numRow-1);
+    }
+    
+    public boolean scanCross() {
+        return this.scanVerticalLine() && this.scanHorizontalLine();
     }
     
     public String toString()
