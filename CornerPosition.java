@@ -12,6 +12,7 @@ package rubik;
  */
 public enum CornerPosition {
 
-    UFR, UBR, UFL, UBL, DFR, DBR, DFL, DBL
+    UFR, RFU, FUR, UFL, FLU, LUF, ULB, LBU, BUL, UBR, BRU, RUB,
+    FRD, RDF, DFR, FDL, LFD, DLF, LBD, DLB, BLD, RBD, BDR, DRB
 
 }

@@ -12,6 +12,8 @@ package rubik;
  */
 public enum EdgePosition {
 
-    UF, UB, UR, UL, DF, DB, DR, DL
+    UF, FU, UB, BU, UR, RU, UL, LU, 
+    DF, FD, DB, BD, DR, RD, DL, LD,
+    FR, RF, FL, LF, RB, BR, LB, BL
 
 }
