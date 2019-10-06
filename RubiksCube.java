@@ -24,6 +24,7 @@ public class RubiksCube {
     private State state;
     private LinkedList<State> stateSequence;
     private HashMap<Colour, Colour> oppositeColour;
+    private HashMap<FacePosition, Face> readFace;
 
     public RubiksCube()
     {
@@ -36,32 +37,41 @@ public class RubiksCube {
         this.state = State.SOLVED;
         
         this.stateSequence = new LinkedList<>();
-        stateSequence.add(State.SHUFFLED);
-        stateSequence.add(State.BOTTOMCROSS);
-        stateSequence.add(State.FIRSTLAYER);
-        stateSequence.add(State.SECONDLAYER);
-        stateSequence.add(State.TOPCROSS);
-        stateSequence.add(State.PERMUTEEDGE);
-        stateSequence.add(State.PERMUTECORNER);
-        stateSequence.add(State.THIRDLAYER);
-        stateSequence.add(State.SOLVED);
+        this.stateSequence.add(State.SHUFFLED);
+        this.stateSequence.add(State.BOTTOMCROSS);
+        this.stateSequence.add(State.FIRSTLAYER);
+        this.stateSequence.add(State.SECONDLAYER);
+        this.stateSequence.add(State.TOPCROSS);
+        this.stateSequence.add(State.PERMUTEEDGE);
+        this.stateSequence.add(State.PERMUTECORNER);
+        this.stateSequence.add(State.THIRDLAYER);
+        this.stateSequence.add(State.SOLVED);
         
         this.oppositeColour = new HashMap<>();
-        oppositeColour.put(Colour.BLUE, Colour.GREEN);
-        oppositeColour.put(Colour.GREEN, Colour.BLUE);
-        oppositeColour.put(Colour.RED, Colour.ORANGE);
-        oppositeColour.put(Colour.ORANGE, Colour.RED);
-        oppositeColour.put(Colour.WHITE, Colour.YELLOW);
-        oppositeColour.put(Colour.YELLOW, Colour.WHITE);
+        this.oppositeColour.put(Colour.BLUE, Colour.GREEN);
+        this.oppositeColour.put(Colour.GREEN, Colour.BLUE);
+        this.oppositeColour.put(Colour.RED, Colour.ORANGE);
+        this.oppositeColour.put(Colour.ORANGE, Colour.RED);
+        this.oppositeColour.put(Colour.WHITE, Colour.YELLOW);
+        this.oppositeColour.put(Colour.YELLOW, Colour.WHITE);
+        
+        this.readFace = new HashMap<>();
+        this.readFace.put(FacePosition.UP, this.up);
+        this.readFace.put(FacePosition.DOWN, this.down);
+        this.readFace.put(FacePosition.RIGHT, this.right);
+        this.readFace.put(FacePosition.LEFT, this.left);
+        this.readFace.put(FacePosition.FRONT, this.front);
+        this.readFace.put(FacePosition.BACK, this.back);
+        
     }
 
     public RubiksCube(int x)
     {
         this.front = new Face(Colour.WHITE, x, x);
-        this.left = new Face(Colour.BLUE, x, x);
-        this.right = new Face(Colour.GREEN, x, x);
-        this.up = new Face(Colour.RED, x, x);
-        this.down = new Face(Colour.ORANGE, x, x);
+        this.left = new Face(Colour.ORANGE, x, x);
+        this.right = new Face(Colour.RED, x, x);
+        this.up = new Face(Colour.BLUE, x, x);
+        this.down = new Face(Colour.GREEN, x, x);
         this.back = new Face(Colour.YELLOW, x, x);
         this.state = State.SOLVED;
     }
@@ -546,6 +556,48 @@ public class RubiksCube {
                this.scanCornerOriented(this.up, this.left, this.front) &&
                this.scanCornerOriented(this.up, this.back, this.left) &&
                this.scanCornerOriented(this.up, this.right, this.back);
+    }
+    
+    public FacePosition getFacePositionFromChar(char face) {
+         switch(face){
+            case 'F': 
+            return FacePosition.FRONT;
+            
+            case 'B': 
+            return FacePosition.BACK;
+                
+            case 'R': 
+            return FacePosition.RIGHT;
+            
+            case 'L': 
+            return FacePosition.LEFT;
+                
+            case 'U': 
+            return FacePosition.UP;
+            
+            case 'D': 
+            return FacePosition.DOWN;
+        }  
+        return FacePosition.FRONT;
+    }
+    
+    public FacePosition[] getFacesFromEdgePosition(EdgePosition edge) {
+        FacePosition[] faces = new FacePosition[2];
+                
+        faces[0] = getFacePositionFromChar(edge.toString().charAt(0));
+        faces[1] = getFacePositionFromChar(edge.toString().charAt(1));
+        
+        return faces;
+    }
+    
+    public FacePosition[] getFacesFromCornerPosition(CornerPosition corner) {
+        FacePosition[] faces = new FacePosition[3];
+                
+        faces[0] = getFacePositionFromChar(corner.toString().charAt(0));
+        faces[1] = getFacePositionFromChar(corner.toString().charAt(1));
+        faces[2] = getFacePositionFromChar(corner.toString().charAt(2));
+        
+        return faces;
     }
    
     public String toString()
