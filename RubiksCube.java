@@ -6,6 +6,7 @@
 
 package rubik;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -504,7 +505,7 @@ public class RubiksCube {
         this.state = State.SHUFFLED;
     }
     
-    public boolean scanCornerPermuted(Face up, Face front, Face right) {
+    public boolean scanCornerPermuted(Face up, Face right, Face front) {
         return (up.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1] ||
                 up.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
                 up.getColour() == right.getGrid()[0][0]) &&
@@ -598,6 +599,189 @@ public class RubiksCube {
         faces[2] = getFacePositionFromChar(corner.toString().charAt(2));
         
         return faces;
+    }
+    
+    public  ArrayList<EdgePosition> scanForEdges(Colour check) {
+        ArrayList<EdgePosition> edges = new ArrayList<>();
+        
+        for(EdgePosition pos : EdgePosition.values()) {
+            FacePosition[] faces = getFacesFromEdgePosition(pos);
+
+            FacePosition face1 = faces[0];
+            FacePosition face2 = faces[1];
+            Face face = this.readFace.get(face1);
+            
+            switch(face1) {
+                case FRONT: {
+                    switch(face2) {
+                        case UP: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case RIGHT: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case LEFT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case DOWN: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case UP: {
+                    switch(face2) {
+                        case BACK: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case RIGHT: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case LEFT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case FRONT: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case RIGHT: {
+                    switch(face2) {
+                        case UP: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case BACK: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case FRONT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case DOWN: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case LEFT: {
+                    switch(face2) {
+                        case UP: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case FRONT: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case BACK: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case DOWN: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case DOWN: {
+                    switch(face2) {
+                        case FRONT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case RIGHT: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case LEFT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case BACK: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case BACK: {
+                    switch(faces[1]) {
+                        case UP: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case LEFT: 
+                        if(face.scanColEdge(check, face.getNumCol()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case RIGHT: 
+                        if(face.scanRowEdge(check, 0)) {
+                            edges.add(pos);
+                        }
+                        break;
+                        case DOWN: 
+                        if(face.scanRowEdge(check, face.getNumRow()-1)) {
+                            edges.add(pos);
+                        }
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        return edges;
+    }
+    
+    public CornerPosition[] scanForCorners(Colour check) {
+        CornerPosition[] edges = new CornerPosition[4];
+        
+        for(CornerPosition pos : CornerPosition.values()) {
+            FacePosition[] faces = getFacesFromCornerPosition(pos);
+
+            FacePosition face1 = faces[0];
+            FacePosition face2 = faces[1];
+            FacePosition face3 = faces[3];
+            Face face = this.readFace.get(face1);
+            // check first face position, retrieve the correct corner from second, third position
+        }
+        
+        return edges;
     }
    
     public String toString()
