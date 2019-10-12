@@ -36,7 +36,7 @@ public class RubiksCube {
         this.down = new Face(Colour.ORANGE, 3, 3);
         this.back = new Face(Colour.YELLOW, 3, 3);
         this.state = State.SOLVED;
-        
+
         this.stateSequence = new LinkedList<>();
         this.stateSequence.add(State.SHUFFLED);
         this.stateSequence.add(State.BOTTOMCROSS);
@@ -47,7 +47,7 @@ public class RubiksCube {
         this.stateSequence.add(State.PERMUTECORNER);
         this.stateSequence.add(State.THIRDLAYER);
         this.stateSequence.add(State.SOLVED);
-        
+
         this.oppositeColour = new HashMap<>();
         this.oppositeColour.put(Colour.BLUE, Colour.GREEN);
         this.oppositeColour.put(Colour.GREEN, Colour.BLUE);
@@ -55,7 +55,7 @@ public class RubiksCube {
         this.oppositeColour.put(Colour.ORANGE, Colour.RED);
         this.oppositeColour.put(Colour.WHITE, Colour.YELLOW);
         this.oppositeColour.put(Colour.YELLOW, Colour.WHITE);
-        
+
         this.readFace = new HashMap<>();
         this.readFace.put(FacePosition.UP, this.up);
         this.readFace.put(FacePosition.DOWN, this.down);
@@ -63,7 +63,7 @@ public class RubiksCube {
         this.readFace.put(FacePosition.LEFT, this.left);
         this.readFace.put(FacePosition.FRONT, this.front);
         this.readFace.put(FacePosition.BACK, this.back);
-        
+
     }
 
     public RubiksCube(int x)
@@ -111,12 +111,12 @@ public class RubiksCube {
     {
         return this.state;
     }
-    
+
     public LinkedList<State> getStateSequence()
     {
         return this.stateSequence;
     }
-    
+
     public HashMap<Colour, Colour> getOppositeColours()
     {
         return this.oppositeColour;
@@ -329,7 +329,7 @@ public class RubiksCube {
         this.back = this.down;
         this.down = save;
         this.right.clockwiseTurn();
-        this.left.antiClockwiseTurn();  
+        this.left.antiClockwiseTurn();
     }
 
     public void YTurn()
@@ -340,7 +340,7 @@ public class RubiksCube {
         this.back = this.left;
         this.left = save;
         this.up.clockwiseTurn();
-        this.down.antiClockwiseTurn(); 
+        this.down.antiClockwiseTurn();
     }
 
     public void YInverseTurn()
@@ -351,7 +351,7 @@ public class RubiksCube {
         this.back = this.right;
         this.right = save;
         this.up.antiClockwiseTurn();
-        this.down.clockwiseTurn();  
+        this.down.clockwiseTurn();
     }
 
     public void ZTurn()
@@ -362,7 +362,7 @@ public class RubiksCube {
         this.down = this.right;
         this.right = save;
         this.front.clockwiseTurn();
-        this.back.antiClockwiseTurn(); 
+        this.back.antiClockwiseTurn();
     }
 
 
@@ -374,137 +374,152 @@ public class RubiksCube {
         this.down = this.left;
         this.left = save;
         this.front.antiClockwiseTurn();
-        this.back.clockwiseTurn();  
+        this.back.clockwiseTurn();
     }
 
-    public void readCommand(String com)
+    public void readCommand(Command com)
     {
         switch(com){
-            case "F": 
+            case F:
             this.front();
             break;
-            
-            case "B": 
+
+            case B:
             this.back();
-            break;    
-                
-            case "R": 
+            break;
+
+            case R:
             this.right();
             break;
-            
-            case "L": 
+
+            case L:
             this.left();
             break;
-                
-            case "U": 
+
+            case U:
             this.up();
             break;
-            
-            case "D": 
+
+            case D:
             this.down();
             break;
-                
-            case "X": 
+
+            case X:
             this.XTurn();
             break;
-                
-            case "Y": 
+
+            case Y:
             this.YTurn();
             break;
-                
-            case "Z": 
+
+            case Z:
             this.ZTurn();
-            break; 
-                            
-            case "Fi": 
+            break;
+
+            case Fi:
             this.frontInverse();
             break;
-            
-            case "Bi": 
+
+            case Bi:
             this.backInverse();
-            break;    
-                
-            case "Ri": 
+            break;
+
+            case Ri:
             this.rightInverse();
             break;
-            
-            case "Li": 
+
+            case Li:
             this.leftInverse();
             break;
-                
-            case "Ui": 
+
+            case Ui:
             this.upInverse();
             break;
-            
-            case "Di": 
+
+            case Di:
             this.downInverse();
             break;
-                
-            case "Xi": 
+
+            case Xi:
             this.XInverseTurn();
             break;
-                
-            case "Yi": 
+
+            case Yi:
             this.YInverseTurn();
             break;
-                
-            case "Zi": 
+
+            case Zi:
             this.ZInverseTurn();
-            break;   
-                
-            case "F2": 
+            break;
+
+            case F2:
             this.front();
             this.front();
             break;
-            
-            case "B2": 
+
+            case B2:
             this.back();
             this.back();
-            break;    
-                
-            case "R2": 
+            break;
+
+            case R2:
             this.right();
             this.right();
             break;
-            
-            case "L2": 
+
+            case L2:
             this.left();
             this.left();
             break;
-                
-            case "U2": 
+
+            case U2:
             this.up();
             this.up();
             break;
-            
-            case "D2": 
+
+            case D2:
             this.down();
             this.down();
-            break;    
-       
-        }  
+            break;
+
+            case X2:
+            this.XTurn();
+            this.XTurn();
+            break;
+
+            case Y2:
+            this.YTurn();
+            this.YTurn();
+            break;
+
+            case Z2:
+            this.ZTurn();
+            this.ZTurn();
+            break;
+
+        }
     }
 
     public void shuffle()
     {
-        String[] commands = {"F", "B", "U", "D", "R", "L", "Fi", "Bi", "Ui", "Di", "Ri", "Li"};
-        String newCommand;
-        
-        String[] shuffle = new String[3];
+        Command[] commands = Command.values();
+        Command newCommand;
+
+        Command[] shuffle = new Command[3];
         int shuffleIndex = 0;
-     
+
         for(int i = 0; i<100; i++) {
             do {
               newCommand = commands[(int)(Math.random()*commands.length)];
             } while (newCommand.equals(shuffle[0]) || newCommand.equals(shuffle[1]) || newCommand.equals(shuffle[2]));
-            
+
             shuffle[shuffleIndex] = newCommand;
             shuffleIndex = (shuffleIndex++)%shuffle.length;
             this.readCommand(newCommand);
         }
         this.state = State.SHUFFLED;
     }
-    
+
     public boolean scanCornerPermuted(Face up, Face right, Face front) {
         return (up.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1] ||
                 up.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
@@ -516,34 +531,34 @@ public class RubiksCube {
                 right.getColour() == front.getGrid()[0][front.getNumCol()-1] ||
                 right.getColour() == right.getGrid()[0][0]);
     }
-    
+
     public boolean scanHorizontalLinePermuted() {
         return this.up.scanLeftEdgeOriented() && this.up.scanRightEdgeOriented() &&
                this.left.getColour() == this.oppositeColour.get(this.right.getColour()) &&
                this.right.getColour() == this.oppositeColour.get(this.left.getColour());
     }
-    
+
     public boolean scanVerticalLinePermuted() {
         return this.up.scanTopEdgeOriented() && this.up.scanBottomEdgeOriented() &&
                this.front.getColour() == this.oppositeColour.get(this.back.getColour()) &&
                this.back.getColour() == this.oppositeColour.get(this.front.getColour());
     }
-    
+
     public boolean scanCrossPermuted() {
         return this.scanHorizontalLinePermuted() && this.scanVerticalLinePermuted();
     }
-    
+
     public boolean scanCornerOriented(Face up, Face front, Face right) {
         return (up.getColour() == up.getGrid()[up.getNumRow()-1][up.getNumCol()-1]) &&
                (front.getColour() == front.getGrid()[0][front.getNumCol()-1]) &&
                (right.getColour() == right.getGrid()[0][0]);
     }
-    
+
     public boolean scanEdgeOriented(Face up, Face front) {
         return up.scanRowEdge(up.getColour(), up.getNumRow()-1) &&
                front.scanRowEdge(front.getColour(), 0);
     }
-    
+
     public boolean scanCrossOriented() {
         return this.up.scanCross() &&
                this.scanEdgeOriented(this.up, this.front) &&
@@ -551,85 +566,85 @@ public class RubiksCube {
                this.scanEdgeOriented(this.up, this.left) &&
                this.scanEdgeOriented(this.up, this.right);
     }
-    
+
     public boolean scanAllCornersOriented() {
         return this.scanCornerOriented(this.up, this.front, this.right) &&
                this.scanCornerOriented(this.up, this.left, this.front) &&
                this.scanCornerOriented(this.up, this.back, this.left) &&
                this.scanCornerOriented(this.up, this.right, this.back);
     }
-    
+
     public FacePosition getFacePositionFromChar(char face) {
          switch(face){
-            case 'F': 
+            case 'F':
             return FacePosition.FRONT;
-            
-            case 'B': 
+
+            case 'B':
             return FacePosition.BACK;
-                
-            case 'R': 
+
+            case 'R':
             return FacePosition.RIGHT;
-            
-            case 'L': 
+
+            case 'L':
             return FacePosition.LEFT;
-                
-            case 'U': 
+
+            case 'U':
             return FacePosition.UP;
-            
-            case 'D': 
+
+            case 'D':
             return FacePosition.DOWN;
-        }  
+        }
         return FacePosition.FRONT;
     }
-    
+
     public FacePosition[] getFacesFromEdgePosition(EdgePosition edge) {
         FacePosition[] faces = new FacePosition[2];
-                
+
         faces[0] = getFacePositionFromChar(edge.toString().charAt(0));
         faces[1] = getFacePositionFromChar(edge.toString().charAt(1));
-        
+
         return faces;
     }
-    
+
     public FacePosition[] getFacesFromCornerPosition(CornerPosition corner) {
         FacePosition[] faces = new FacePosition[3];
-                
+
         faces[0] = getFacePositionFromChar(corner.toString().charAt(0));
         faces[1] = getFacePositionFromChar(corner.toString().charAt(1));
         faces[2] = getFacePositionFromChar(corner.toString().charAt(2));
-        
+
         return faces;
     }
-    
+
     public  ArrayList<EdgePosition> scanForEdges(Colour check) {
         ArrayList<EdgePosition> edges = new ArrayList<>();
-        
+
         for(EdgePosition pos : EdgePosition.values()) {
             FacePosition[] faces = getFacesFromEdgePosition(pos);
 
             FacePosition face1 = faces[0];
             FacePosition face2 = faces[1];
             Face face = this.readFace.get(face1);
-            
+
             switch(face1) {
                 case FRONT: {
                     switch(face2) {
-                        case UP: 
+                        case UP:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case RIGHT: 
+                        case RIGHT:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case LEFT: 
+                        case LEFT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case DOWN: 
+                        case DOWN:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -639,22 +654,22 @@ public class RubiksCube {
                 }
                 case UP: {
                     switch(face2) {
-                        case BACK: 
+                        case BACK:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case RIGHT: 
+                        case RIGHT:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case LEFT: 
+                        case LEFT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case FRONT: 
+                        case FRONT:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -664,22 +679,22 @@ public class RubiksCube {
                 }
                 case RIGHT: {
                     switch(face2) {
-                        case UP: 
+                        case UP:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case BACK: 
+                        case BACK:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case FRONT: 
+                        case FRONT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case DOWN: 
+                        case DOWN:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -689,22 +704,22 @@ public class RubiksCube {
                 }
                 case LEFT: {
                     switch(face2) {
-                        case UP: 
+                        case UP:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case FRONT: 
+                        case FRONT:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case BACK: 
+                        case BACK:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case DOWN: 
+                        case DOWN:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -714,22 +729,22 @@ public class RubiksCube {
                 }
                 case DOWN: {
                     switch(face2) {
-                        case FRONT: 
+                        case FRONT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case RIGHT: 
+                        case RIGHT:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case LEFT: 
+                        case LEFT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case BACK: 
+                        case BACK:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -739,22 +754,22 @@ public class RubiksCube {
                 }
                 case BACK: {
                     switch(faces[1]) {
-                        case UP: 
+                        case UP:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case LEFT: 
+                        case LEFT:
                         if(face.scanColEdge(check, face.getNumCol()-1)) {
                             edges.add(pos);
                         }
                         break;
-                        case RIGHT: 
+                        case RIGHT:
                         if(face.scanRowEdge(check, 0)) {
                             edges.add(pos);
                         }
                         break;
-                        case DOWN: 
+                        case DOWN:
                         if(face.scanRowEdge(check, face.getNumRow()-1)) {
                             edges.add(pos);
                         }
@@ -764,13 +779,13 @@ public class RubiksCube {
                 }
             }
         }
-        
+
         return edges;
     }
-    
+
     public CornerPosition[] scanForCorners(Colour check) {
         CornerPosition[] edges = new CornerPosition[4];
-        
+
         for(CornerPosition pos : CornerPosition.values()) {
             FacePosition[] faces = getFacesFromCornerPosition(pos);
 
@@ -780,17 +795,17 @@ public class RubiksCube {
             Face face = this.readFace.get(face1);
             // check first face position, retrieve the correct corner from second, third position
         }
-        
+
         return edges;
     }
-   
+
     public String toString()
     {
-        return "FRONT: " + this.front.toString() + 
-               "\n\nBACK: " + this.back.toString() + 
-               "\n\nRIGHT: " + this.right.toString() + 
-               "\n\nLEFT: " + this.left.toString() + 
-               "\n\nUP: " + this.up.toString() + 
+        return "FRONT: " + this.front.toString() +
+               "\n\nBACK: " + this.back.toString() +
+               "\n\nRIGHT: " + this.right.toString() +
+               "\n\nLEFT: " + this.left.toString() +
+               "\n\nUP: " + this.up.toString() +
                "\n\nDOWN: " + this.down.toString();
     }
 }
